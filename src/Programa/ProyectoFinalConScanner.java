@@ -39,6 +39,9 @@ public class ProyectoFinalConScanner {
             switch (opcion) {
                 case 1:
                     mostrarInventario(productos, nombresProductos, stock, precios);
+                    break;
+                case 2:
+                    registrarVenta(productos, nombresProductos, stock, precios, ventasDiarias, scanner);
                     break;}
         }
     }
@@ -50,4 +53,39 @@ public class ProyectoFinalConScanner {
             System.out.println(productos[i] + " - " + nombresProductos[i] + ": " + stock[i] + " unidades - Precio: S/." + precios[i]);
         }
     }
+
+    // Metodo para registrar venta
+    private static void registrarVenta(String[] productos, String[] nombresProductos, int[] stock, double[] precios, int[] ventasDiarias, Scanner scanner) {
+        System.out.println("\n--- Registrar Venta ---");
+        for (int i = 0; i < productos.length; i++) {
+            System.out.println(i + 1 + ". " + productos[i] + " - " + nombresProductos[i] + " - Stock: " + stock[i] + " - Precio: S/." + precios[i]);
+        }
+        System.out.print("Seleccione el producto: ");
+        int productoSeleccionado = scanner.nextInt() - 1;
+
+        if (productoSeleccionado >= 0 && productoSeleccionado < productos.length) {
+            System.out.print("Ingrese la cantidad vendida: ");
+            int cantidadVendida = scanner.nextInt();
+
+            if (cantidadVendida <= stock[productoSeleccionado]) {
+                stock[productoSeleccionado] = actualizarStock(stock[productoSeleccionado], cantidadVendida);
+                ventasDiarias[productoSeleccionado] += cantidadVendida; // Registrar venta del dia
+                System.out.println("Venta registrada. Nuevo stock de " + nombresProductos[productoSeleccionado] + ": " + stock[productoSeleccionado]);
+            } else {
+                System.out.println("Stock insuficiente. Venta no realizada.");
+            }
+        } else {
+            System.out.println("Producto no válido.");
+        }
+    }
+
+
+    // Metodo para actualizar stock por producto
+    private static int actualizarStock(int stockActual, int cantidadVendida) {
+        int nuevoStock = stockActual - cantidadVendida;
+        if (nuevoStock < 0) {
+            nuevoStock = 0;
+        }
+        return nuevoStock;
+}
 }
