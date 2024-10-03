@@ -1,5 +1,7 @@
 package Programa;
 
+import java.util.Scanner;
+
 public class ProyectoFinalConScanner {
 
     public static void main(String[] args) {
@@ -13,10 +15,39 @@ public class ProyectoFinalConScanner {
 
         int diaActual = 0; // dia en el que se esta trabajando, se inicia en el dia 1
 
-        // Proceso
+        //Implementacion de Scanner para solicitar datos
+        Scanner scanner = new Scanner(System.in);
+        boolean continuar = true;
 
+        //Menu de opciones
+        while (continuar) {
+            System.out.println("------AGROVET SA.------");
+            System.out.println("--- Menú de Opciones---");
+            System.out.println("1. Ver inventario");
+            System.out.println("2. Registrar venta");
+            System.out.println("3. Agregar stock por producto");
+            System.out.println("4. Terminar día de trabajo");
+            if (diaActual == 30) {
+                System.out.println("5. Terminar mes");
+            }
+            System.out.println("6. Renunciar");
+            System.out.println("7. Salir");
+            System.out.print("Seleccione una opción: ");
+            int opcion = scanner.nextInt();
+            scanner.nextLine(); // Limpiar el salto de linea al presionar enter
 
-        // Salida
+            switch (opcion) {
+                case 1:
+                    mostrarInventario(productos, nombresProductos, stock, precios);
+                    break;}
+        }
+    }
+
+    // Metodo que muestra el inventario actualizado
+    private static void mostrarInventario(String[] productos, String[] nombresProductos, int[] stock, double[] precios) {
+        System.out.println("\n--- Inventario Actual ---");
+        for (int i = 0; i < productos.length; i++) {
+            System.out.println(productos[i] + " - " + nombresProductos[i] + ": " + stock[i] + " unidades - Precio: S/." + precios[i]);
+        }
     }
 }
-
