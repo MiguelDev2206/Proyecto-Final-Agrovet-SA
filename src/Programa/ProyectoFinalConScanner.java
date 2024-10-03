@@ -2,6 +2,22 @@ package Programa;
 
 import java.util.Scanner;
 
+//Proyecto Final Agrovet - Fundamentos de la Programacion 1
+
+//Profesor: Lucas Agustín Fajardo Montes
+
+//Sección: D15A
+
+//Grupo: 1
+
+//Integrantes:
+//-Arellano Bastidas, Raquel Consuelo
+//-Cachicatari Calderon, Edyson Romel
+//-Mamani Villon, Miguel Alexander
+//-Mollinedo Limachi, Antonio Salomon
+//-Robles Mejía, Acxell Eduardo
+//-Yarasca Luna, Cristhian Jesus
+
 public class ProyectoFinalConScanner {
     public static void main(String[] args) {
         // Entradas: Productos iniciales, precios y stock
