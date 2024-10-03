@@ -53,6 +53,18 @@ public class ProyectoFinalConScanner {
                     } else {
                         System.out.println("Ya se han registrado los 30 días de trabajo. Puede terminar el mes.");
                     }
+                    break;
+                case 5:
+                    if (diaActual == 30) {
+                        terminarMes(nombresProductos, ventasMensuales, precios, diaActual);
+                        diaActual = 0; // Resetear dia trabajados
+                        // Reiniciar las ventas mensuales
+                        for (int i = 0; i < ventasMensuales.length; i++) {
+                            ventasMensuales[i] = 0;
+                        }
+                    } else {
+                        System.out.println("No puede terminar el mes hasta haber completado 30 días.");
+                    }
                     break;}
         }
     }
@@ -148,5 +160,18 @@ public class ProyectoFinalConScanner {
             System.out.println(nombresProductos[i] + ": Vendido " + ventasDiarias[i] + " unidades - Ganancias: S/." + ganancias);
         }
         System.out.println("Ganancias totales del día: S/." + totalGanancias);
+    }
+
+    // Metodo para el termino del mes y reporte mensual
+    private static void terminarMes(String[] nombresProductos, int[] ventasMensuales, double[] precios, int diasTrabajados) {
+        System.out.println("\n--- Terminar Mes ---");
+        double totalGanancias = 0;
+        for (int i = 0; i < nombresProductos.length; i++) {
+            double ganancias = ventasMensuales[i] * precios[i];
+            totalGanancias += ganancias;
+            System.out.println(nombresProductos[i] + ": Vendido " + ventasMensuales[i] + " unidades - Ganancias: S/." + ganancias);
+        }
+        System.out.println("Días trabajados: " + diasTrabajados);
+        System.out.println("Ganancias totales del mes: S/." + totalGanancias);
     }
 }
