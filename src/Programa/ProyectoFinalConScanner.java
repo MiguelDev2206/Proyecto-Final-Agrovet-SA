@@ -42,6 +42,17 @@ public class ProyectoFinalConScanner {
                     break;
                 case 2:
                     registrarVenta(productos, nombresProductos, stock, precios, ventasDiarias, scanner);
+                    break;
+                case 3:
+                    agregarStock(nombresProductos, stock, scanner);
+                    break;
+                case 4:
+                    if (diaActual < 30) {
+                        diaActual++;
+                        terminarDiaTrabajo(nombresProductos, ventasDiarias, precios, diaActual, ventasMensuales);
+                    } else {
+                        System.out.println("Ya se han registrado los 30 días de trabajo. Puede terminar el mes.");
+                    }
                     break;}
         }
     }
@@ -87,5 +98,55 @@ public class ProyectoFinalConScanner {
             nuevoStock = 0;
         }
         return nuevoStock;
-}
+    }
+
+    // Metodo para aumentar stock por prodycto
+    private static void agregarStock(String[] nombresProductos, int[] stock, Scanner scanner) {
+        System.out.println("\n--- Agregar Stock ---");
+        for (int i = 0; i < nombresProductos.length; i++) {
+            System.out.println((i + 1) + ". " + nombresProductos[i] + " - Stock actual: " + stock[i]);
+        }
+        System.out.print("Seleccione el producto al que desea agregar stock: ");
+        int productoSeleccionado = scanner.nextInt() - 1;
+
+        if (productoSeleccionado >= 0 && productoSeleccionado < nombresProductos.length) {
+            System.out.print("Ingrese la cantidad de stock a agregar: ");
+            int cantidadAgregar = scanner.nextInt();
+            if (cantidadAgregar > 0) {
+                stock[productoSeleccionado] += cantidadAgregar;
+                System.out.println("Stock actualizado. Nuevo stock de " + nombresProductos[productoSeleccionado] + ": " + stock[productoSeleccionado]);
+            } else {
+                System.out.println("Cantidad no válida. No se agregó stock.");
+            }
+        } else {
+            System.out.println("Producto no válido.");
+        }
+    }
+
+    // Metodo para terminar el dia de trabajo
+    private static void terminarDiaTrabajo(String[] nombresProductos, int[] ventasDiarias, double[] precios, int diaActual, int[] ventasMensuales) {
+        System.out.println("\n--- Terminar Día de Trabajo: Día " + diaActual + " ---");
+        generarReporteDiario(nombresProductos, ventasDiarias, precios);
+
+        // Acumular la venta del vida para la venta del mes
+        for (int i = 0; i < ventasDiarias.length; i++) {
+            ventasMensuales[i] += ventasDiarias[i];
+        }
+
+        // Reiniciar ventas a 0 para el siguiente dia
+        for (int i = 0; i < ventasDiarias.length; i++) {
+            ventasDiarias[i] = 0;
+        }
+    }
+
+    // Metodo para generar el reporte del dia
+    private static void generarReporteDiario(String[] nombresProductos, int[] ventasDiarias, double[] precios) {
+        double totalGanancias = 0;
+        for (int i = 0; i < nombresProductos.length; i++) {
+            double ganancias = ventasDiarias[i] * precios[i];
+            totalGanancias += ganancias;
+            System.out.println(nombresProductos[i] + ": Vendido " + ventasDiarias[i] + " unidades - Ganancias: S/." + ganancias);
+        }
+        System.out.println("Ganancias totales del día: S/." + totalGanancias);
+    }
 }
