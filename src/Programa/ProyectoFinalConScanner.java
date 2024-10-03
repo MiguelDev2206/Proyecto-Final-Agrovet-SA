@@ -3,7 +3,6 @@ package Programa;
 import java.util.Scanner;
 
 public class ProyectoFinalConScanner {
-
     public static void main(String[] args) {
         // Entradas: Productos iniciales, precios y stock
         String[] productos = {"Medicinas", "Vitaminas", "Alimentos"}; //categorias de productos
@@ -65,15 +64,44 @@ public class ProyectoFinalConScanner {
                     } else {
                         System.out.println("No puede terminar el mes hasta haber completado 30 días.");
                     }
-                    break;}
+                    break;
+                case 6:
+                    renunciar(nombresProductos, ventasMensuales, precios, diaActual);
+                    diaActual = 0; // Resetear días trabajados
+                    continuar = false; // Salir del sistema
+                    break;
+                case 7:
+                    continuar = false;
+                    System.out.println("Saliendo del sistema...");
+                    break;
+                default:
+                    System.out.println("Opción no válida. Intente de nuevo.");
+            }
         }
+
+        scanner.close();
     }
 
-    // Metodo que muestra el inventario actualizado
-    private static void mostrarInventario(String[] productos, String[] nombresProductos, int[] stock, double[] precios) {
-        System.out.println("\n--- Inventario Actual ---");
-        for (int i = 0; i < productos.length; i++) {
-            System.out.println(productos[i] + " - " + nombresProductos[i] + ": " + stock[i] + " unidades - Precio: S/." + precios[i]);
+    // Metodo para aumentar stock por prodycto
+    private static void agregarStock(String[] nombresProductos, int[] stock, Scanner scanner) {
+        System.out.println("\n--- Agregar Stock ---");
+        for (int i = 0; i < nombresProductos.length; i++) {
+            System.out.println((i + 1) + ". " + nombresProductos[i] + " - Stock actual: " + stock[i]);
+        }
+        System.out.print("Seleccione el producto al que desea agregar stock: ");
+        int productoSeleccionado = scanner.nextInt() - 1;
+
+        if (productoSeleccionado >= 0 && productoSeleccionado < nombresProductos.length) {
+            System.out.print("Ingrese la cantidad de stock a agregar: ");
+            int cantidadAgregar = scanner.nextInt();
+            if (cantidadAgregar > 0) {
+                stock[productoSeleccionado] += cantidadAgregar;
+                System.out.println("Stock actualizado. Nuevo stock de " + nombresProductos[productoSeleccionado] + ": " + stock[productoSeleccionado]);
+            } else {
+                System.out.println("Cantidad no válida. No se agregó stock.");
+            }
+        } else {
+            System.out.println("Producto no válido.");
         }
     }
 
@@ -96,39 +124,6 @@ public class ProyectoFinalConScanner {
                 System.out.println("Venta registrada. Nuevo stock de " + nombresProductos[productoSeleccionado] + ": " + stock[productoSeleccionado]);
             } else {
                 System.out.println("Stock insuficiente. Venta no realizada.");
-            }
-        } else {
-            System.out.println("Producto no válido.");
-        }
-    }
-
-
-    // Metodo para actualizar stock por producto
-    private static int actualizarStock(int stockActual, int cantidadVendida) {
-        int nuevoStock = stockActual - cantidadVendida;
-        if (nuevoStock < 0) {
-            nuevoStock = 0;
-        }
-        return nuevoStock;
-    }
-
-    // Metodo para aumentar stock por prodycto
-    private static void agregarStock(String[] nombresProductos, int[] stock, Scanner scanner) {
-        System.out.println("\n--- Agregar Stock ---");
-        for (int i = 0; i < nombresProductos.length; i++) {
-            System.out.println((i + 1) + ". " + nombresProductos[i] + " - Stock actual: " + stock[i]);
-        }
-        System.out.print("Seleccione el producto al que desea agregar stock: ");
-        int productoSeleccionado = scanner.nextInt() - 1;
-
-        if (productoSeleccionado >= 0 && productoSeleccionado < nombresProductos.length) {
-            System.out.print("Ingrese la cantidad de stock a agregar: ");
-            int cantidadAgregar = scanner.nextInt();
-            if (cantidadAgregar > 0) {
-                stock[productoSeleccionado] += cantidadAgregar;
-                System.out.println("Stock actualizado. Nuevo stock de " + nombresProductos[productoSeleccionado] + ": " + stock[productoSeleccionado]);
-            } else {
-                System.out.println("Cantidad no válida. No se agregó stock.");
             }
         } else {
             System.out.println("Producto no válido.");
@@ -173,5 +168,40 @@ public class ProyectoFinalConScanner {
         }
         System.out.println("Días trabajados: " + diasTrabajados);
         System.out.println("Ganancias totales del mes: S/." + totalGanancias);
+    }
+
+    // Metodo para renunciar xd
+    private static void renunciar(String[] nombresProductos, int[] ventasMensuales, double[] precios, int diasTrabajados) {
+        System.out.println("\n--- ¡Renunciar! ---");
+        terminarMes(nombresProductos, ventasMensuales, precios, diasTrabajados);
+        double liquidacion = calcularLiquidacion(ventasMensuales, precios);
+        System.out.println("Tu liquidación: S/." + liquidacion);
+        System.out.println("¡Renuncias, al fin!");
+    }
+
+    // Metodo para calcular la liqui
+    private static double calcularLiquidacion(int[] ventasMensuales, double[] precios) {
+        double totalGanancias = 0;
+        for (int i = 0; i < ventasMensuales.length; i++) {
+            totalGanancias += ventasMensuales[i] * precios[i];
+        }
+        return totalGanancias * 0.1; // Supongamos que la liquidación es el 10% de las ganancias
+    }
+
+    // Metodo para actualizar stock por producto
+    private static int actualizarStock(int stockActual, int cantidadVendida) {
+        int nuevoStock = stockActual - cantidadVendida;
+        if (nuevoStock < 0) {
+            nuevoStock = 0;
+        }
+        return nuevoStock;
+    }
+
+    // Metodo que muestra el inventario actualizado
+    private static void mostrarInventario(String[] productos, String[] nombresProductos, int[] stock, double[] precios) {
+        System.out.println("\n--- Inventario Actual ---");
+        for (int i = 0; i < productos.length; i++) {
+            System.out.println(productos[i] + " - " + nombresProductos[i] + ": " + stock[i] + " unidades - Precio: S/." + precios[i]);
+        }
     }
 }
