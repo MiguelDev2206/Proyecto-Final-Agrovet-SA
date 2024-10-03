@@ -1,4 +1,4 @@
-Proyecto-Final-Agrovet-SA
+Proyecto-Final-Agrovet-S.A
 Proyecto Final Fundamentos de la Programación
 Profesor: Lucas Agustín Fajardo Montes
 Sección: D15A
